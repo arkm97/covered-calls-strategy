@@ -15,3 +15,7 @@ In short: write OTM calls on AAPL while long the underlying 100 shares. If the s
 
 ### time to expiration, moneyness, and choice of underlying
 Most of the design choices in the strategy come from capital and computing resource constraints.  While premia tend to increase with time to expiration, I find writing calls 1 week to expiration gives a good balance of return and flexibility (i.e. not locked into a contract with many months to expiration; since I can only buy about 100 shares at once with my own money, I can only write one contract at a time).  I tend to write calls as close to the money as I can: given the short timeframe, these are generally the only contracts with premia large enough to make the trade viable. I use AAPL as the underlying security because I'm mostly bullish long-term (after all, I am exposed to big decreases in the underlying shares).  Hypothetically the strategy could be closer to market-neutral with the correct short position(s), but my brokerage limits these types of positions.
+
+
+## Implementation
+The python script `strategy_v1.py` runs on a free, lightweight Heroku dyno.  Quotes and orders hit the endpoints of [TD Ameritrade's API](https://developer.tdameritrade.com/apis).
