@@ -1,7 +1,7 @@
 ---
-layout: page
-title: "strategy details"
-permalink: /strategy-details/
----
+title: Strategy Details
+layout: template
+filename: strategy.md
+--- 
 
 # About the covered call trading strategy
