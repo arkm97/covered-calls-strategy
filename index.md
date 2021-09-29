@@ -1,37 +1,24 @@
-## Welcome to GitHub Pages
+## What is this project?
 
-You can use the [editor on GitHub](https://github.com/arkm97/covered-calls-strategy/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This is a simple application I designed to automate a covered call trading strategy. A single script pulls quotes and handles orders using TD Ameritrade's API. I do supporting analysis (backtesting, model development) offline to keep the script as lightweight as possible.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## What is the trading stratetgy?
 
-### Markdown
+In short: write OTM calls on AAPL while long the underlying 100 shares. If the strategy is successful, the premia gained from the sold calls make up for the limited upside imposed by the calls. The strategy (roughly) shorts volatility of the underlying shares. It is most profitable when expected future volatility (at the time the call is written) is much higher than the volatility realized at expiration.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### a quick example
 
-```markdown
-Syntax highlighted code block
+Buy 100 shares at the market.  Write (sell) an OTM call and collect the premium.
 
-# Header 1
-## Header 2
-### Header 3
+if the sold option expires out of the money (assuming no early exercise)...
 
-- Bulleted
-- List
+...I keep the shares and the premium. Returns after expiration are linear with the underlying (until a new call is written on the same underlying shares).
 
-1. Numbered
-2. List
+if the option expires in the money...
 
-**Bold** and _Italic_ and `Code` text
+...I still keep the premium, but miss the upside (100 x (share price - strike)) on the underlying shares when the contract is assigned to me. The underlying position can be reopened and another call can be written.
 
-[Link](url) and ![Image](src)
-```
+### more details
+Most of the design choices in the strategy come from capital and computing resource constraints. While premia tend to increase with time to expiration, I find writing calls 2-3 weeks to expiration gives a good balance of return and flexibility (i.e. not locked into a contract with many months to expiration; since I can only buy about 100 shares at once with my own money, I can only write one contract at a time). I tend to write calls as close to the money as I can: given the short timeframe, these are generally the only contracts with premia large enough to make the trade viable. I use AAPL as the underlying security because I'm mostly bullish long-term (after all, I am exposed to big decreases in the underlying shares). Hypothetically the strategy could be closer to market-neutral with the correct short position(s), but my brokerage limits these types of positions.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/arkm97/covered-calls-strategy/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## How does the strategy perform?
