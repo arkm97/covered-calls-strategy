@@ -1,4 +1,4 @@
-# About
+# About - see all details here: [https://arkm97.github.io/covered-calls/](https://arkm97.github.io/covered-calls/)
 
 This is a simple application I designed to automate a covered call trading strategy.  A single script to pulls quotes and handles orders using TD Ameritrade's API.  I do supporting analysis (backtesting, model development) offline to keep the script as lightweight as possible.
 
